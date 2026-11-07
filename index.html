@@ -339,17 +339,45 @@
     </div>
 
     <!-- ================= JAVASCRIPT ================= -->
-    <script>
-        // Live Counter Logic
-        let currentCount = 4880;
-        const counterEl = document.getElementById('adjutantCounter');
+<script>
+    // Load stored player count or initialize to 0
+    document.addEventListener("DOMContentLoaded", () => {
+        let count = localStorage.getItem('adjutantCount');
+        if (!count) {
+            count = 0;
+            localStorage.setItem('adjutantCount', count);
+        }
+        document.getElementById('playerCount').innerText = count;
+    });
 
-        setInterval(() => {
-            if (Math.random() > 0.5) {
-                currentCount += 1;
-                counterEl.textContent = currentCount.toLocaleString('en-US');
-            }
-        }, 5000);
+    function startGame() {
+        const name = document.getElementById('playerName').value;
+        if(name.trim() === "") {
+            alert("দয়া করে আপনার নাম লিখুন!");
+            return;
+        }
+
+        // Increment player count when someone enters name and starts game
+        let count = parseInt(localStorage.getItem('adjutantCount')) || 0;
+        count += 1;
+        localStorage.setItem('adjutantCount', count);
+        document.getElementById('playerCount').innerText = count;
+
+        alert("স্বাগতম, " + name + "! খুব শীঘ্রই গেমের পরবর্তী ধাপ (কলেজ বাছাই) শুরু হচ্ছে...");
+    }
+
+    function toggleAttentionModal() {
+        const modal = document.getElementById('attentionModal');
+        modal.classList.toggle('hidden');
+        modal.classList.toggle('flex');
+    }
+
+    function openDiary() {
+        const modal = document.getElementById('diaryModal');
+        modal.classList.toggle('hidden');
+        modal.classList.toggle('flex');
+    }
+
 
         // Rectangular Top Notification Toast Function
         function showStepInfo(title, msg) {
